@@ -1,6 +1,6 @@
 # @agentapiai/check — Node directory client
 
-Read-only client for the public agentapiai.com API. It reads the directory and published verdicts; **it does not run the local detector**. For local detection, use the Python package (`pip install agentapiai-check`) or the [GitHub Action](../../action/action.yml).
+Read-only client for the public agentapiai.com API. It reads the directory and published verdicts; **it does not run the local detector**. For local detection, use the Python package (`pip install agentapiai-check`) or the [GitHub Action](../../action.yml).
 
 ```bash
 npx @agentapiai/check sites --grade a --limit 10

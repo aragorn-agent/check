@@ -30,7 +30,7 @@ The package has no runtime dependencies and targets Python 3.9+. Keep it that wa
 | `src/agentapiai_check/cli.py` | argument parsing, rendering, exit codes |
 | `src/agentapiai_check/probes.json` | versioned probe registry (data, not code) |
 | `tests/test_detect.py` | fake relay + engine and CLI tests |
-| `action/action.yml` | composite GitHub Action |
+| `action.yml` | composite GitHub Action |
 | `docs/methodology.md` | the contract behind every verdict |
 | `docs/limitations.md` | known false positives and negatives |
 
