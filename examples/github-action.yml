@@ -1,0 +1,38 @@
+# .github/workflows/relay-check.yml
+# Runs after every deploy and fails the job on a `fail` verdict.
+name: relay-check
+
+on:
+  deployment_status:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    if: github.event_name != 'deployment_status' || github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: agentapiai/check@v0.1.0
+        id: relay
+        with:
+          base-url: ${{ secrets.RELAY_BASE_URL }}
+          api-key: ${{ secrets.RELAY_API_KEY }}
+          model: claude-sonnet-5-5
+          claimed-context: "200000"
+          official-input-price: "3"
+          official-output-price: "15"
+          fail-on: suspect
+
+      - name: Upload the JSON report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agentapiai-check-report
+          path: agentapiai-check.json
+          if-no-files-found: warn
+
+      - name: Show the verdict
+        if: always()
+        run: echo "verdict=${{ steps.relay.outputs.verdict }}"

@@ -1,0 +1,140 @@
+name: AgentApiAI Check
+description: Run seven relay checks against one endpoint and write a report to the job summary.
+author: AgentApiAI
+branding:
+  icon: check-circle
+  color: green
+
+inputs:
+  base-url:
+    description: Relay base URL, for example https://api.example.com/v1
+    required: true
+  api-key:
+    description: API key for the relay. Pass a GitHub secret; never commit a key.
+    required: true
+  model:
+    description: Model id to test, for example claude-sonnet-5-5
+    required: true
+  family:
+    description: Tokenizer family (claude, gpt, gemini, deepseek, qwen, grok). Inferred when empty.
+    required: false
+    default: ""
+  protocol:
+    description: Wire protocol (auto, openai-chat, openai-responses, anthropic, gemini).
+    required: false
+    default: auto
+  claimed-context:
+    description: Claimed context window in tokens, used by the needle check.
+    required: false
+    default: ""
+  official-input-price:
+    description: Official input price in USD per 1M tokens, used by the billing check.
+    required: false
+    default: ""
+  official-output-price:
+    description: Official output price in USD per 1M tokens, used by the billing check.
+    required: false
+    default: ""
+  samples:
+    description: Number of authenticity samples.
+    required: false
+    default: "5"
+  fail-on:
+    description: fail (default) or suspect. Choose suspect to block on any non-pass.
+    required: false
+    default: fail
+  fail-on-skip:
+    description: Fail the step when the overall verdict is skip (insufficient evidence).
+    required: false
+    default: "false"
+  python-version:
+    description: Python version used to run the checker.
+    required: false
+    default: "3.11"
+  report-path:
+    description: Path for the JSON report.
+    required: false
+    default: agentapiai-check.json
+  markdown-path:
+    description: Path for the Markdown report.
+    required: false
+    default: agentapiai-check.md
+
+outputs:
+  verdict:
+    description: Overall verdict (pass, suspect, fail, skip).
+    value: ${{ steps.check.outputs.verdict }}
+  report-path:
+    description: Path to the JSON report.
+    value: ${{ inputs.report-path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install agentapiai-check
+      shell: bash
+      run: python -m pip install --disable-pip-version-check "${{ github.action_path }}/.."
+
+    - name: Run checks
+      id: check
+      shell: bash
+      env:
+        AGENTAPIAI_KEY: ${{ inputs.api-key }}
+        BASE_URL: ${{ inputs.base-url }}
+        MODEL: ${{ inputs.model }}
+        FAMILY: ${{ inputs.family }}
+        PROTOCOL: ${{ inputs.protocol }}
+        CLAIMED_CONTEXT: ${{ inputs.claimed-context }}
+        OFFICIAL_INPUT_PRICE: ${{ inputs.official-input-price }}
+        OFFICIAL_OUTPUT_PRICE: ${{ inputs.official-output-price }}
+        SAMPLES: ${{ inputs.samples }}
+        FAIL_ON: ${{ inputs.fail-on }}
+        REPORT_PATH: ${{ inputs.report-path }}
+        MARKDOWN_PATH: ${{ inputs.markdown-path }}
+      run: |
+        set -u
+        args=(verify --base-url "$BASE_URL" --model "$MODEL" --samples "$SAMPLES"
+              --format markdown --no-color
+              --output "$MARKDOWN_PATH" --json-output "$REPORT_PATH"
+              --fail-on "$FAIL_ON")
+        if [ -n "$FAMILY" ]; then args+=(--family "$FAMILY"); fi
+        if [ "$PROTOCOL" != "auto" ]; then args+=(--protocol "$PROTOCOL"); fi
+        if [ -n "$CLAIMED_CONTEXT" ]; then args+=(--claimed-context "$CLAIMED_CONTEXT"); fi
+        if [ -n "$OFFICIAL_INPUT_PRICE" ]; then args+=(--official-input-price "$OFFICIAL_INPUT_PRICE"); fi
+        if [ -n "$OFFICIAL_OUTPUT_PRICE" ]; then args+=(--official-output-price "$OFFICIAL_OUTPUT_PRICE"); fi
+
+        set +e
+        agentapiai-check "${args[@]}" > check-output.txt 2>&1
+        status=$?
+        set -e
+
+        cat check-output.txt
+        if [ -f "$MARKDOWN_PATH" ]; then
+          cat "$MARKDOWN_PATH" >> "$GITHUB_STEP_SUMMARY"
+        fi
+
+        if [ -f "$REPORT_PATH" ]; then
+          verdict=$(python -c "import json,sys;print(json.load(open(sys.argv[1],encoding='utf-8')).get('verdict','skip'))" "$REPORT_PATH")
+        else
+          verdict="error"
+        fi
+        echo "verdict=$verdict" >> "$GITHUB_OUTPUT"
+        echo "exit=$status" >> "$GITHUB_OUTPUT"
+
+        if [ "$status" -eq 3 ]; then
+          echo "::error::agentapiai-check verdict: $verdict"
+          exit 1
+        fi
+        if [ "$status" -eq 4 ] && [ "${{ inputs.fail-on-skip }}" = "true" ]; then
+          echo "::error::agentapiai-check verdict: skip (insufficient evidence)"
+          exit 1
+        fi
+        if [ "$status" -ne 0 ] && [ "$status" -ne 2 ] && [ "$status" -ne 4 ]; then
+          echo "::error::agentapiai-check could not complete (exit $status)"
+          exit "$status"
+        fi

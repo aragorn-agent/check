@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentapiai-check"
+version = "0.1.0"
+description = "The open-source ruler for AI API relays: 4 protocols, 7 checks, key never stored."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "AgentApiAI" }]
+keywords = ["ai", "api", "relay", "llm", "verification", "openai", "anthropic", "gemini"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Quality Assurance",
+  "Topic :: System :: Monitoring",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://agentapiai.com"
+Repository = "https://github.com/agentapiai/check"
+Methodology = "https://agentapiai.com/method/"
+Issues = "https://github.com/agentapiai/check/issues"
+
+[project.scripts]
+agentapiai-check = "agentapiai_check.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+agentapiai_check = ["probes.json"]
