@@ -26,7 +26,7 @@ import urllib.error
 from pathlib import Path
 
 VERSION = "0.1.0"
-UA = "agentapiai-check/0.1 (+https://github.com/agentapiai/check)"
+UA = "agentapiai-check/0.1 (+https://github.com/aragorn-agent/check)"
 TIMEOUT = 60
 PROTOCOLS = ("openai-chat", "openai-responses", "anthropic", "gemini")
 ANTHROPIC_VERSION = "2023-06-01"

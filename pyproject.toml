@@ -27,9 +27,9 @@ dependencies = []
 
 [project.urls]
 Homepage = "https://agentapiai.com"
-Repository = "https://github.com/agentapiai/check"
+Repository = "https://github.com/aragorn-agent/check"
 Methodology = "https://agentapiai.com/method/"
-Issues = "https://github.com/agentapiai/check/issues"
+Issues = "https://github.com/aragorn-agent/check/issues"
 
 [project.scripts]
 agentapiai-check = "agentapiai_check.cli:main"

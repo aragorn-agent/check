@@ -49,7 +49,7 @@ export AGENTAPIAI_KEY="sk-..."   # 不要把 Key 写进 shell 历史
 ```
 
 > Alpha 阶段，PyPI 首发前请从源码安装：
-> `python -m pip install "git+https://github.com/agentapiai/check"`
+> `python -m pip install "git+https://github.com/aragorn-agent/check"`
 
 agentapiai-check verify \
   --base-url https://api.example.com/v1 \
@@ -148,7 +148,7 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: agentapiai/check@v0.1.0
+      - uses: aragorn-agent/check@v0.1.0
         with:
           base-url: ${{ secrets.RELAY_BASE_URL }}
           api-key: ${{ secrets.RELAY_API_KEY }}
@@ -218,7 +218,7 @@ https://agentapiai.com/data/sites.csv
 - **v0.3** — 图片与推理检测、历史对比、托管报告链接（需显式同意）。
 - **以后** — 社区探针注册表、签名报告、常见供应商 CI 模板。
 
-路线图在 [Discussions](https://github.com/agentapiai/check/discussions) 讨论，不承诺日期。
+路线图在 [Discussions](https://github.com/aragorn-agent/check/discussions) 讨论，不承诺日期。
 
 ## 参与贡献
 

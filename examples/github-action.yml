@@ -14,7 +14,7 @@ jobs:
     if: github.event_name != 'deployment_status' || github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: agentapiai/check@v0.1.0
+      - uses: aragorn-agent/check@v0.1.0
         id: relay
         with:
           base-url: ${{ secrets.RELAY_BASE_URL }}

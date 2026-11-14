@@ -12,7 +12,7 @@ Thanks for helping improve the ruler. This project has an unusual contribution s
 ## Development setup
 
 ```bash
-git clone https://github.com/agentapiai/check.git
+git clone https://github.com/aragorn-agent/check.git
 cd check
 python -m venv .venv
 . .venv/bin/activate        # Windows: .venv\Scripts\activate

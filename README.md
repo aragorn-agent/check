@@ -49,7 +49,7 @@ export AGENTAPIAI_KEY="sk-..."   # keep the key out of shell history
 ```
 
 > Alpha: until the first PyPI release, install from source instead:
-> `python -m pip install "git+https://github.com/agentapiai/check"`
+> `python -m pip install "git+https://github.com/aragorn-agent/check"`
 
 agentapiai-check verify \
   --base-url https://api.example.com/v1 \
@@ -148,7 +148,7 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: agentapiai/check@v0.1.0
+      - uses: aragorn-agent/check@v0.1.0
         with:
           base-url: ${{ secrets.RELAY_BASE_URL }}
           api-key: ${{ secrets.RELAY_API_KEY }}
@@ -218,7 +218,7 @@ See [SECURITY.md](SECURITY.md) for reporting a vulnerability.
 - **v0.3** — image and reasoning checks, history diffing, hosted report links (opt-in).
 - **Later** — community probe registry, signed reports, CI templates for common providers.
 
-Roadmap is discussed in [Discussions](https://github.com/agentapiai/check/discussions). No dates are promised.
+Roadmap is discussed in [Discussions](https://github.com/aragorn-agent/check/discussions). No dates are promised.
 
 ## Contributing
 
