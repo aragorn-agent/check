@@ -1,13 +1,13 @@
-# @agentapiai/check — Node directory client
+# agentapiai-check — Node directory client
 
 Read-only client for the public agentapiai.com API. It reads the directory and published verdicts; **it does not run the local detector**. For local detection, use the Python package (`pip install agentapiai-check`) or the [GitHub Action](../../action.yml).
 
 ```bash
-npx @agentapiai/check sites --grade a --limit 10
-npx @agentapiai/check site totokenscc
-npx @agentapiai/check stats
-npx @agentapiai/check detect api.example.com
-npx @agentapiai/check reports
+npx agentapiai-check sites --grade a --limit 10
+npx agentapiai-check site totokenscc
+npx agentapiai-check stats
+npx agentapiai-check detect api.example.com
+npx agentapiai-check reports
 ```
 
 No API key. No writes. No telemetry.

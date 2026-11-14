@@ -170,7 +170,7 @@ node packages/node/bin/agentapiai.mjs sites --grade a --limit 10
 node packages/node/bin/agentapiai.mjs stats
 ```
 
-After the npm release, the same commands are available as `npx @agentapiai/check`.
+After the npm release, the same commands are available as `npx agentapiai-check`.
 
 ## Use the public data
 

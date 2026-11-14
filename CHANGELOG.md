@@ -14,7 +14,7 @@ First public alpha.
 - CLI: `verify`, `probes`; text, Markdown, and JSON output; `--output` and `--json-output`; `--fail-on`; exit codes 0/1/2/3/4.
 - Versioned probe registry (`probes.json`, v1.0, 2026-11-13).
 - Composite GitHub Action that runs the checks and writes a job summary.
-- Read-only Node directory client (`@agentapiai/check`).
+- Read-only Node directory client (`agentapiai-check` on npm).
 - Documentation: methodology, limitations, security policy, trademark policy, CLA, contributing guide, code of conduct.
 - Tests against a local fake relay: engine, CLI, exit codes, key redaction.
 

@@ -170,7 +170,7 @@ node packages/node/bin/agentapiai.mjs sites --grade a --limit 10
 node packages/node/bin/agentapiai.mjs stats
 ```
 
-npm 发布后，同样的命令可用 `npx @agentapiai/check`。
+npm 发布后，同样的命令可用 `npx agentapiai-check`。
 
 ## 使用公开数据
 

@@ -33,6 +33,7 @@ The package has no runtime dependencies and targets Python 3.9+. Keep it that wa
 | `action.yml` | composite GitHub Action |
 | `docs/methodology.md` | the contract behind every verdict |
 | `docs/limitations.md` | known false positives and negatives |
+| `RELEASING.md` | how a release reaches PyPI and npm |
 
 ## Adding or changing a probe
 
