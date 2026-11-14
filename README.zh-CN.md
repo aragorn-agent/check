@@ -46,6 +46,10 @@ AI API 中转站转售 OpenAI、Claude、Gemini 等模型的访问权。有的�
 python -m pip install agentapiai-check
 
 export AGENTAPIAI_KEY="sk-..."   # 不要把 Key 写进 shell 历史
+```
+
+> Alpha 阶段，PyPI 首发前请从源码安装：
+> `python -m pip install "git+https://github.com/agentapiai/check"`
 
 agentapiai-check verify \
   --base-url https://api.example.com/v1 \
@@ -159,13 +163,14 @@ Action 会把 Markdown 摘要写进 job，把 JSON 报告写到 `agentapiai-chec
 
 ## Node 目录客户端（只读）
 
-Node 包读取公开目录，不运行本地检测。
+Node 包读取公开目录，不运行本地检测。尚未发布到 npm，先从仓库运行：
 
 ```bash
-npx @agentapiai/check sites --grade a --limit 10
-npx @agentapiai/check site totokenscc
-npx @agentapiai/check stats
+node packages/node/bin/agentapiai.mjs sites --grade a --limit 10
+node packages/node/bin/agentapiai.mjs stats
 ```
+
+npm 发布后，同样的命令可用 `npx @agentapiai/check`。
 
 ## 使用公开数据
 

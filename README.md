@@ -46,6 +46,10 @@ AI API relay sites resell access to OpenAI, Claude, Gemini and other models. Som
 python -m pip install agentapiai-check
 
 export AGENTAPIAI_KEY="sk-..."   # keep the key out of shell history
+```
+
+> Alpha: until the first PyPI release, install from source instead:
+> `python -m pip install "git+https://github.com/agentapiai/check"`
 
 agentapiai-check verify \
   --base-url https://api.example.com/v1 \
@@ -159,13 +163,14 @@ The action writes a Markdown summary to the job and a JSON report to `agentapiai
 
 ## Node directory client (read-only)
 
-The Node package reads the public directory; it does not run the local detector.
+The Node package reads the public directory; it does not run the local detector. It is not on npm yet — run it from the repository:
 
 ```bash
-npx @agentapiai/check sites --grade a --limit 10
-npx @agentapiai/check site totokenscc
-npx @agentapiai/check stats
+node packages/node/bin/agentapiai.mjs sites --grade a --limit 10
+node packages/node/bin/agentapiai.mjs stats
 ```
+
+After the npm release, the same commands are available as `npx @agentapiai/check`.
 
 ## Use the public data
 
