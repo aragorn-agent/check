@@ -17,6 +17,22 @@ VERDICT_COLORS = {
 RESET = "\033[0m"
 
 
+def _utf8_when_piped():
+    """Write UTF-8 when stdout is a pipe or a file.
+
+    On Windows the default pipe encoding is the ANSI code page, which
+    breaks any consumer that reads UTF-8 (CI logs, editors, `jq`). A real
+    console keeps its native console API, so this only changes redirected
+    output.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            if stream is not None and not stream.isatty():
+                stream.reconfigure(encoding="utf-8")
+        except (AttributeError, ValueError, OSError):
+            pass
+
+
 def _color(text, verdict, enabled):
     if not enabled:
         return text
@@ -198,6 +214,7 @@ def build_parser():
 
 
 def main(argv=None):
+    _utf8_when_piped()
     parser = build_parser()
     args = parser.parse_args(argv)
     return args.func(args)
